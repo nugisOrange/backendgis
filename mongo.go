@@ -151,8 +151,11 @@ func GetGeoIntersectsDoc(db *mongo.Database, collname string, coordinates Point)
 		"geometry": bson.M{
 			"$geoIntersects": bson.M{
 				"$geometry": bson.M{
-					"type":        "Point",
-					"coordinates": coordinates.Coordinates,
+					"$or": []bson.M{
+						{"type": "Point", "coordinates": coordinates.Coordinates},
+						{"type": "Polygon", "coordinates": coordinates.Coordinates},  
+						{"type": "LineString", "coordinates": coordinates.Coordinates},  
+					},
 				},
 			},
 		},
@@ -164,6 +167,25 @@ func GetGeoIntersectsDoc(db *mongo.Database, collname string, coordinates Point)
 	}
 	return "Koordinat anda bersinggungan dengan " + doc.Properties.Name
 }
+
+// func GetGeoIntersectsDoc(db *mongo.Database, collname string, coordinates Point) (result string) {
+// 	filter := bson.M{
+// 		"geometry": bson.M{
+// 			"$geoIntersects": bson.M{
+// 				"$geometry": bson.M{
+// 					"type":        "Point",
+// 					"coordinates": coordinates.Coordinates,
+// 				},
+// 			},
+// 		},
+// 	}
+// 	var doc FullGeoJson
+// 	err := db.Collection(collname).FindOne(context.TODO(), filter).Decode(&doc)
+// 	if err != nil {
+// 		fmt.Printf("GeoIntersects: %v\n", err)
+// 	}
+// 	return "Koordinat anda bersinggungan dengan " + doc.Properties.Name
+// }
 
 func GetGeoWithinDoc(db *mongo.Database, collname string, coordinates Polygon) (result string) {
 	filter := bson.M{

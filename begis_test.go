@@ -8,8 +8,8 @@ import (
 var privatekey = ""
 var publickey = ""
 var encode = ""
-var dbname = "geojson"
-var collname = "cijambe"
+var dbname = "petasal"
+var collname = "GET"
 
 func TestGeoIntersects(t *testing.T) {
 	mconn := SetConnection("mongoenv", dbname)
@@ -40,29 +40,29 @@ func TestGeoWithin(t *testing.T) {
 }
 
 func TestNear(t *testing.T) {
-	mconn := SetConnection2dsphere("MONGOSTRING", "geojson", "cijambe")
+	mconn := SetConnection2dsphere("MONGOSTRING", "petasal", "GET")
 	coordinates := Point{
 		Coordinates: []float64{
 			95.30987654321098, 5.556789012345678,
 		},
 	}
-	datagedung := Near(mconn, "cijambe", coordinates)
+	datagedung := Near(mconn, "GET", coordinates)
 	fmt.Println(datagedung)
 }
 
 func TestNearSphere(t *testing.T) {
-	mconn := SetConnection("MONGOSTRING", "geojson")
+	mconn := SetConnection("MONGOSTRING", "petasal")
 	coordinates := Point{
 		Coordinates: []float64{
 			95.30987654321098, 5.556789012345678,
 		},
 	}
-	datagedung := NearSphere(mconn, "cijambe", coordinates)
+	datagedung := NearSphere(mconn, "GET", coordinates)
 	fmt.Println(datagedung)
 }
 
 func TestBox(t *testing.T) {
-	mconn := SetConnection("MONGOSTRING", "geojson")
+	mconn := SetConnection("MONGOSTRING", "petasal")
 	coordinates := Polyline{
 		Coordinates: [][]float64{
 			{95.32345678901234, 5.567890123456789},
