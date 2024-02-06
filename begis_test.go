@@ -8,42 +8,41 @@ import (
 var privatekey = ""
 var publickey = ""
 var encode = ""
-var dbname = "petasal"
-var collname = "GET"
+var dbname = "geojson"
+var collname = "cijambe"
 
 func TestGeoIntersects(t *testing.T) {
 	mconn := SetConnection("mongoenv", dbname)
 	coordinates := Point{
 		Coordinates: []float64{
-			103.60768133536988, -1.628526295003084,
+			107.70123687792598,-6.9133580309376015,
 		},
 	}
 	datagedung := GeoIntersects(mconn, collname, coordinates)
 	fmt.Println(datagedung)
 }
 
-func TestGeoWithin(t *testing.T) {
-	mconn := SetConnection("MONGOSTRING", dbname)
-	coordinates := Polygon{
-		Coordinates: [][][]float64{
-			{
-				{95.31123456789012, 5.553210987654321},
-				{95.31133456789011, 5.553210987654321},
-				{95.31133456789011, 5.553310987654321},
-				{95.31123456789012, 5.553310987654321},
-				{95.31123456789012, 5.553210987654321},
-			},
-		},
-	}
-	datagedung := GeoWithin(mconn, collname, coordinates)
-	fmt.Println(datagedung)
-}
+// func TestGeoWithin(t *testing.T) {
+// 	mconn := SetConnection("mongoenv", dbname)
+// 	coordinates := Polygon{
+// 		Coordinates: [][][]float64{
+// 			{
+// 				{ 107.69161532452927, -6.909192149952432}, 
+// 				{107.6928270495055, -6.909088574785045}, 
+// 				{ 107.69101448076144, -6.90926005434234}, 
+// 				{ 107.69161532452927, -6.909192149952432 }
+// 			},
+// 		},
+// 	}
+// 	datagedung := GeoWithin(mconn, collname, coordinates)
+// 	fmt.Println(datagedung)
+// }
 
 func TestNear(t *testing.T) {
-	mconn := SetConnection2dsphere("MONGOSTRING", "petasal", "GET")
+	mconn := SetConnection2dsphere("mongoenv", "geojson", "cijambe")
 	coordinates := Point{
 		Coordinates: []float64{
-			95.30987654321098, 5.556789012345678,
+			107.70123687792598,-6.9133580309376015,
 		},
 	}
 	datagedung := Near(mconn, "GET", coordinates)
@@ -51,10 +50,10 @@ func TestNear(t *testing.T) {
 }
 
 func TestNearSphere(t *testing.T) {
-	mconn := SetConnection("MONGOSTRING", "petasal")
+	mconn := SetConnection("mongoenv", "geojson")
 	coordinates := Point{
 		Coordinates: []float64{
-			95.30987654321098, 5.556789012345678,
+			107.70123339970226, -6.91335864870355,
 		},
 	}
 	datagedung := NearSphere(mconn, "GET", coordinates)
@@ -62,7 +61,7 @@ func TestNearSphere(t *testing.T) {
 }
 
 func TestBox(t *testing.T) {
-	mconn := SetConnection("MONGOSTRING", "petasal")
+	mconn := SetConnection("mongoenv", "geojson")
 	coordinates := Polyline{
 		Coordinates: [][]float64{
 			{95.32345678901234, 5.567890123456789},
