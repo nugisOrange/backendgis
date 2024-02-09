@@ -57,8 +57,16 @@ func DeleteGeojson(mconn *mongo.Database, collname string, userdata User) interf
 	return DeleteOneDoc(mconn, collname, filter)
 }
 
-func GeoIntersects(mconn *mongo.Database, collname string, coordinates Point) string {
+func GeoIntersects(mconn *mongo.Database, collname string, coordinates Polygon) string {
 	return GetGeoIntersectsDoc(mconn, collname, coordinates)
+}
+
+func GeoIntersectsPolyline(mconn *mongo.Database, collname string, coordinates Polyline) string {
+	return GetGeoIntersectsDocPolyline(mconn, collname, coordinates)
+}
+
+func GeoIntersectsPoint(mconn *mongo.Database, collname string, coordinates PointInter) string {
+	return GetGeoIntersectsDocPoint(mconn, collname, coordinates)
 }
 
 func GeoWithin(mconn *mongo.Database, collname string, coordinates Polygon) string {
@@ -84,3 +92,4 @@ func Center(mconn *mongo.Database, collname string, coordinates Point) string {
 func CenterSphere(mconn *mongo.Database, collname string, coordinates Point) string {
 	return GetCenterSphereDoc(mconn, collname, coordinates)
 }
+

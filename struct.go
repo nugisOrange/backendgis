@@ -100,6 +100,10 @@ type Point struct {
 	Min         int64     `json:"min,omitempty" bson:"min,omitempty"`
 }
 
+type PointInter struct {
+	Coordinates []float64 `json:"coordinates" bson:"coordinates"`
+}
+
 type Polyline struct {
 	Coordinates [][]float64 `json:"coordinates" bson:"coordinates"`
 }

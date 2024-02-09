@@ -75,13 +75,31 @@ func AmbilDataGeojson(mongoenv, dbname, collname string, r *http.Request) string
 	return ReturnStruct(datagedung)
 }
 
-func PostGeoIntersects(mongoenv, dbname, collname string, r *http.Request) string {
-	var coordinate Point
+// func PostGeoIntersects(mongoenv, dbname, collname string, r *http.Request) string {
+// 	var coordinate Point
+// 	var response Pesan
+// 	response.Status = false
+// 	mconn := SetConnection(mongoenv, dbname)
+
+// 	err := json.NewDecoder(r.Body).Decode(&coordinate)
+
+// 	if err != nil {
+// 		response.Message = "Error parsing application/json: " + err.Error()
+// 		return ReturnStruct(response)
+// 	}
+
+// 	response.Status = true
+// 	response.Message = GeoIntersects(mconn, collname, coordinate)
+// 	return ReturnStruct(response)
+// }
+
+func PostGeoIntersectsPolygon(mongoenv, dbname, collname string, r *http.Request) string {
+	var coordinates Polygon
 	var response Pesan
 	response.Status = false
 	mconn := SetConnection(mongoenv, dbname)
 
-	err := json.NewDecoder(r.Body).Decode(&coordinate)
+	err := json.NewDecoder(r.Body).Decode(&coordinates)
 
 	if err != nil {
 		response.Message = "Error parsing application/json: " + err.Error()
@@ -89,7 +107,43 @@ func PostGeoIntersects(mongoenv, dbname, collname string, r *http.Request) strin
 	}
 
 	response.Status = true
-	response.Message = GeoIntersects(mconn, collname, coordinate)
+	response.Message = GeoIntersects(mconn, collname, coordinates)
+	return ReturnStruct(response)
+}
+
+func PostGeoIntersectsPolyline(mongoenv, dbname, collname string, r *http.Request) string {
+	var coordinates Polyline
+	var response Pesan
+	response.Status = false
+	mconn := SetConnection(mongoenv, dbname)
+
+	err := json.NewDecoder(r.Body).Decode(&coordinates)
+
+	if err != nil {
+		response.Message = "Error parsing application/json: " + err.Error()
+		return ReturnStruct(response)
+	}
+
+	response.Status = true
+	response.Message = GeoIntersectsPolyline(mconn, collname, coordinates)
+	return ReturnStruct(response)
+}
+
+func PostGeoIntersectsPoint(mongoenv, dbname, collname string, r *http.Request) string {
+	var coordinates PointInter
+	var response Pesan
+	response.Status = false
+	mconn := SetConnection(mongoenv, dbname)
+
+	err := json.NewDecoder(r.Body).Decode(&coordinates)
+
+	if err != nil {
+		response.Message = "Error parsing application/json: " + err.Error()
+		return ReturnStruct(response)
+	}
+
+	response.Status = true
+	response.Message = GeoIntersectsPoint(mconn, collname, coordinates)
 	return ReturnStruct(response)
 }
 

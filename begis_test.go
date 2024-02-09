@@ -5,67 +5,71 @@ import (
 	"testing"
 )
 
-var privatekey = ""
-var publickey = ""
-var encode = ""
 var dbname = "geojson"
 var collname = "cijambe"
 
 func TestGeoIntersects(t *testing.T) {
-	mconn := SetConnection("mongoenv", dbname)
-	coordinates := Point{
-		Coordinates: []float64{
-			107.70123687792598,-6.9133580309376015,
+	mconn := SetConnection("MONGOSTRING", dbname)
+	coordinates := Polygon{
+		Coordinates: [][][]float64{
+			{
+				{106.82570304536097, -6.477059201501504},
+				{106.82606286126702, -6.477081901134298},
+				{106.82614853172089, -6.476724381786013},
+				{106.82578300445192, -6.476667632660593},
+				{106.82570304536097, -6.477059201501504},
+			},
 		},
 	}
 	datagedung := GeoIntersects(mconn, collname, coordinates)
 	fmt.Println(datagedung)
 }
 
-// func TestGeoWithin(t *testing.T) {
-// 	mconn := SetConnection("mongoenv", dbname)
-// 	coordinates := Polygon{
-// 		Coordinates: [][][]float64{
-// 			{
-// 				{ 107.69161532452927, -6.909192149952432}, 
-// 				{107.6928270495055, -6.909088574785045}, 
-// 				{ 107.69101448076144, -6.90926005434234}, 
-// 				{ 107.69161532452927, -6.909192149952432 }
-// 			},
-// 		},
-// 	}
-// 	datagedung := GeoWithin(mconn, collname, coordinates)
-// 	fmt.Println(datagedung)
-// }
-
-func TestNear(t *testing.T) {
-	mconn := SetConnection2dsphere("mongoenv", "geojson", "cijambe")
-	coordinates := Point{
-		Coordinates: []float64{
-			107.70123687792598,-6.9133580309376015,
+func TestGeoWithin(t *testing.T) {
+	mconn := SetConnection("MONGOSTRING", dbname)
+	coordinates := Polygon{
+		Coordinates: [][][]float64{
+			{
+				{106.82570304536097, -6.477059201501504},
+				{106.82606286126702, -6.477081901134298},
+				{106.82614853172089, -6.476724381786013},
+				{106.82578300445192, -6.476667632660593},
+				{106.82570304536097, -6.477059201501504},
+			},
 		},
 	}
-	datagedung := Near(mconn, "GET", coordinates)
+	datagedung := GeoWithin(mconn, collname, coordinates)
+	fmt.Println(datagedung)
+}
+
+func TestNear(t *testing.T) {
+	mconn := SetConnection2dsphere("MONGOSTRING", "geojson", "cijambe")
+	coordinates := Point{
+		Coordinates: []float64{
+			106.83165780963839, -6.4737440161616036,
+		},
+	}
+	datagedung := Near(mconn, "cijambe", coordinates)
 	fmt.Println(datagedung)
 }
 
 func TestNearSphere(t *testing.T) {
-	mconn := SetConnection("mongoenv", "geojson")
+	mconn := SetConnection("MONGOSTRING", "geojson")
 	coordinates := Point{
 		Coordinates: []float64{
-			107.70123339970226, -6.91335864870355,
+			106.82523088801918, -6.476722204156317,
 		},
 	}
-	datagedung := NearSphere(mconn, "GET", coordinates)
+	datagedung := NearSphere(mconn, "cijambe", coordinates)
 	fmt.Println(datagedung)
 }
 
 func TestBox(t *testing.T) {
-	mconn := SetConnection("mongoenv", "geojson")
+	mconn := SetConnection("MONGOSTRING", "geojson")
 	coordinates := Polyline{
 		Coordinates: [][]float64{
-			{95.32345678901234, 5.567890123456789},
-			{95.32355678901234, 5.567990123456789},
+			{106.83882411639951, -6.477228063790221},
+			{106.83879808167569, -6.477803638454645},
 		},
 	}
 	datagedung := Box(mconn, collname, coordinates)
